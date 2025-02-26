@@ -8,6 +8,7 @@ on:
 jobs:
   DEV:
     runs-on: self-hosted
+    environment: DEV
     steps:
     - name: Checkout ${{ inputs.component }} Helm repo
       uses: actions/checkout@v4
@@ -16,14 +17,26 @@ jobs:
     - run: |
         bash argocd.sh ${{ inputs.component }} dev
         echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  QAS:
+        
+  QA:
     needs: DEV
     on: [push]
     runs-on: self-hosted
+    environment: QA
     steps:
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      
+  QAT:
+    needs: DEV
+    on: [push]
+    runs-on: self-hosted
+    environment: QAT
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."      
+
   PROD:
     needs: [DEV, QAS]
     runs-on: self-hosted
+    environment: PROD
     steps:
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
