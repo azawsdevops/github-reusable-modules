@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  deploy:
+  DEV:
     runs-on: self-hosted
     steps:
     - name: Checkout repos
