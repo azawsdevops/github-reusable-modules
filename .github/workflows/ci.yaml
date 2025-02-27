@@ -13,4 +13,4 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        repository: raghudevopsb82/roboshop-${{ inputs.component }}
+        repository: azawsdevops/roboshop-${{ inputs.component }}
