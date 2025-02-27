@@ -1,12 +1,14 @@
-name: ci
-on: 
+name: CI
+run-name: ${{ github.actor }} deploy 🚀
+on:
   workflow_call:
     inputs:
       component:
         required: true
 jobs:
-  CodeCheckout:
+  TEST:
     runs-on: self-hosted
+    environment: DEV
     steps:
     - name: Checkout ${{ inputs.component }} Helm repo
       uses: actions/checkout@v4
@@ -15,16 +17,26 @@ jobs:
     - run: |
         bash argocd.sh ${{ inputs.component }} dev
         echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        
-    - name: Download dependencies
-      runs-on: self-hosted
-      needs: CodeCheckout
-      run: |
-          echo "Downloading dependencies"
-    
-    - name: Unit-testcases
-      runs-on: self-hosted
-      needs: Download dependencies
-      run: |
-          echo "Running unit testcases"
-        
+  
+  OREO:
+    needs: DEV
+    on: [push]
+    runs-on: self-hosted
+    environment: QA
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  
+  BALAL:
+    needs: DEV
+    on: [push]
+    runs-on: self-hosted
+    environment: QAT
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  
+  FINAL:
+    needs: [DEV, QAS]
+    runs-on: self-hosted
+    environment: PROD
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
