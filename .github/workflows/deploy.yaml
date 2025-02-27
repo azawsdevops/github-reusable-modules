@@ -11,7 +11,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      name: checkout code
-      run: ls -l
+    - name: Checkout repos
+      uses: actions/checkout@v4
       with:
-        component: cart
+        repository: azawsdevops/roboshop-${{ inputs.component }}
