@@ -8,9 +8,10 @@ on:
         type: string
 
 jobs:
-  dev:
+  deploy:
     runs-on: self-hosted
     steps:
+      name: checkout code
       uses: actions/checkout@v4
       with:
         component: cart
