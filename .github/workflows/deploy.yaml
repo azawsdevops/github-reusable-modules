@@ -1,42 +1,17 @@
-name: Deploy
-run-name: ${{ github.actor }} deploy 🚀
-on: 
+name: deploy
+run-name: Deployment
+on:
   workflow_call:
     inputs:
       component:
         required: true
-jobs:
-  DEV:
-    runs-on: self-hosted
-    environment: DEV
-    steps:
-    - name: Checkout ${{ inputs.component }} Helm repo
-      uses: actions/checkout@v4
-      with:
-        repository: azawsdevops/aks-roboshop-helm
-    - run: |
-        bash argocd.sh ${{ inputs.component }} dev
-        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        
-  QA:
-    needs: DEV
-    on: [push]
-    runs-on: self-hosted
-    environment: QA
-    steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      
-  QAT:
-    needs: DEV
-    on: [push]
-    runs-on: self-hosted
-    environment: QAT
-    steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."      
+        type: string
 
-  PROD:
-    needs: [DEV, QAS]
+jobs:
+  dev:
     runs-on: self-hosted
-    environment: PROD
     steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      uses: actions/checkout@v4
+      run: ls -l
+      with:
+        component: cart
