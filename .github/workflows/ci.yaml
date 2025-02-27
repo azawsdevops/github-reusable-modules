@@ -19,7 +19,6 @@
 #        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 #  
 name: Reusable workflow example -CI
-
 on:
   workflow_call:
     inputs:
