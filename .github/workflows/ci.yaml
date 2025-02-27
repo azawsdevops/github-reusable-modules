@@ -1,10 +1,10 @@
 name: CI
-run-name: ${{ github.actor }} deploy 🚀
 on:
   workflow_call:
     inputs:
       component:
         required: true
+        type: string
 jobs:
   TEST:
     runs-on: self-hosted
@@ -20,7 +20,6 @@ jobs:
   
   OREO:
     needs: DEV
-    on: [push]
     runs-on: self-hosted
     environment: QA
     steps:
@@ -28,7 +27,6 @@ jobs:
   
   BALAL:
     needs: DEV
-    on: [push]
     runs-on: self-hosted
     environment: QAT
     steps:
