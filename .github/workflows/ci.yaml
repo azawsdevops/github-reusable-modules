@@ -18,23 +18,3 @@ jobs:
         bash argocd.sh ${{ inputs.component }} dev
         echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
   
-  OREO:
-    needs: DEV
-    runs-on: self-hosted
-    environment: QA
-    steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  
-  BALAL:
-    needs: DEV
-    runs-on: self-hosted
-    environment: QAT
-    steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  
-  FINAL:
-    needs: [DEV, QAS]
-    runs-on: self-hosted
-    environment: PROD
-    steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
