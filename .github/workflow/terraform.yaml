@@ -10,7 +10,7 @@ on:
         required: true
   
 jobs:
-  terraform-apply:
+  action:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4

@@ -1,0 +1,30 @@
+name: CI pipeline
+on: 
+  workflow_call:
+    inputs:
+      component:
+        required: true
+jobs:
+  CodeCheckout:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout ${{ inputs.component }} Helm repo
+      uses: actions/checkout@v4
+      with:
+        repository: azawsdevops/aks-roboshop-helm
+    - run: |
+        bash argocd.sh ${{ inputs.component }} dev
+        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+        
+    - name: Download dependencies
+      runs-on: self-hosted
+      needs: CodeCheckout
+      run: |
+          echo "Downloading dependencies"
+    
+    - name: Unit-testcases
+      runs-on: self-hosted
+      needs: Download dependencies
+      run: |
+          echo "Running unit testcases"
+        
