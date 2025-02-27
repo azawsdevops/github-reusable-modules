@@ -1,33 +1,16 @@
-#name: CI
-#on:
-#  workflow_call:
-#    inputs:
-#      component:
-#        required: true
-#        type: string
-#jobs:
-#  TEST:
-#    runs-on: self-hosted
-#    environment: DEV
-#    steps:
-#    - name: Checkout ${{ inputs.component }} Helm repo
-#      uses: actions/checkout@v4
-#      with:
-#        repository: azawsdevops/aks-roboshop-helm
-#    - run: |
-#        bash argocd.sh ${{ inputs.component }} dev
-#        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-#  
-name: Reusable workflow example -CI
+name: CI Pipeline
+run-name: CI Pipeline
 on:
   workflow_call:
     inputs:
       component:
         required: true
         type: string
-  jobs:
-    ci:
-      runs-on: self-hosted
-      steps:
-      - uses: actions/checkout@v4
-        run: ls -l
+jobs:
+  code-checkout:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        repository: raghudevopsb82/roboshop-${{ inputs.component }}
