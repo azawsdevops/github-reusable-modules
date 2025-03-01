@@ -6,6 +6,9 @@ on:
       component:
         required: true
         type: string
+      appType:
+        required: true
+        type: string
 jobs:
   code-checkout:
     runs-on: self-hosted
@@ -14,3 +17,26 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: azawsdevops/roboshop-${{ inputs.component }}
+  
+  app-dependencies:
+    runs-on: self-hosted
+    needs: code-checkout
+    steps:
+      name: Downloading app dependencies
+      run: |
+        if [ ${{ inputs.appType }} == maven ]; then
+          mvn clean package
+        elif [ ${{ inputs.appType }} == nodejs ]; then
+          npm install
+        elif [ ${{ inputs.appType }} == python ]; then
+          pip3 install -r requirement.txt
+        fi
+          
+         
+  unit tests:
+    runs-on: self-hosted
+    needs: app-dependencies
+    steps:
+      name: testing unit test cases
+      
+        
