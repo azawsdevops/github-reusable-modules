@@ -36,9 +36,20 @@ jobs:
     runs-on: self-hosted
     needs: app-dependencies
     steps:
-      name: Running Code quality checks
+    - name: Import Secrets
+      id: import-secrets
+      uses: hashicorp/vault-action@v2
+      with:
+        url: http://vault-internal.cloudaws.shop:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        caCertificate: ${{ secrets.VAULT_TOKEN }}
+        secrets: |
+          github-action/data/azure_sp *;
+          secrets: |
+            github-action/data/azure_sp sonar_token | SONAR_TOKEN ;
+    - name: Running Code quality checks
       run: |
-        
+        /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35c07ce398b131c43aed0 -Dsonar.projectKey=${{inputs.component}} -Dsonar.sources=. -Dsonar.language=${{ inputs.component }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
          
   unit tests:
     runs-on: self-hosted
