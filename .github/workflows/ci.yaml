@@ -21,12 +21,12 @@ jobs:
       with:
         repository: azawsdevops/roboshop-${{ inputs.component }}
   
-  app-dependencies:
-    runs-on: self-hosted
-    needs: code-checkout
-    steps:
-    - name: Downloading app dependencies
-      run: |
+app-dependencies:
+  runs-on: self-hosted
+  needs: code-checkout
+  steps:
+  - name: Downloading app dependencies
+    run: |
         if [ ${{ inputs.appType }} == maven ]; then
           mvn clean package
         elif [ ${{ inputs.appType }} == nodejs ]; then
@@ -35,30 +35,30 @@ jobs:
           pip3 install -r requirement.txt
         fi
   
-  code-quality:
-    runs-on: self-hosted
-    needs: app-dependencies
-    steps:
-    - name: Retrieve Vault Secrets
-      id: import-secrets
-      uses: hashicorp/vault-action@v2
-      with:
-        url: http://vault-internal.azdevopsb82.online:8200
-        token: ${{ secrets.VAULT_TOKEN }}
-        secrets: |
-          github-action/data/azure_sp sonar_token | SONAR_TOKEN ;
-        #        secrets: |
-        #          github-action/data/azure_sp *;
-    - name: Running Code quality checks
-      run: |
-        /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35c07ce398b131c43aed0 -Dsonar.projectKey=${{inputs.component}} -Dsonar.sources=. -Dsonar.language=${{ inputs.component }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
-         
-  unit-tests:
-    runs-on: self-hosted
-    needs: code-quality
-    steps:
-    - name: Unit Tests
-      run: |
+code-quality:
+  runs-on: self-hosted
+  needs: app-dependencies
+  steps:
+  - name: Retrieve Vault Secrets
+    id: import-secrets
+    uses: hashicorp/vault-action@v2
+    with:
+      url: http://vault-internal.azdevopsb82.online:8200
+      token: ${{ secrets.VAULT_TOKEN }}
+      secrets: |
+        github-action/data/azure_sp sonar_token | SONAR_TOKEN ;
+      #        secrets: |
+      #          github-action/data/azure_sp *;
+  - name: Running Code quality checks
+    run: |
+      /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35c07ce398b131c43aed0 -Dsonar.projectKey=${{inputs.component}} -Dsonar.sources=. -Dsonar.language=${{ inputs.component }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
+       
+unit-tests:
+  runs-on: self-hosted
+  needs: code-quality
+  steps:
+  - name: Unit Tests
+    run: |
         if [ ${{ inputs.appType }} == maven ]; then
           echo mvn test
         elif [ ${{ inputs.appType }} == nodejs ];then
