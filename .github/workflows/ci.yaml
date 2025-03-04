@@ -9,6 +9,9 @@ on:
       appType:
         required: true
         type: string
+      secrets:
+        VAULT_TOKEN:
+          required: true
 jobs:
   code-checkout:
     runs-on: self-hosted
