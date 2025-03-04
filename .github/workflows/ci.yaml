@@ -56,5 +56,7 @@ jobs:
     needs: app-dependencies
     steps:
     - name: testing unit test cases
-      
+      run: |
+        echo "Running unit tests"
+    
         
