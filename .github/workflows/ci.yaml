@@ -53,12 +53,16 @@ jobs:
       run: |
         /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35c07ce398b131c43aed0 -Dsonar.projectKey=${{inputs.component}} -Dsonar.sources=. -Dsonar.language=${{ inputs.component }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
          
-  unit tests:
+  unit-tests:
     runs-on: self-hosted
     needs: code-quality
     steps:
-    - name: testing unit test cases
+    - name: Unit Tests
       run: |
-        echo "Running unit tests"
-    
-        
+        if [ ${{ inputs.appType }} == maven ]; then
+          echo mvn test
+        elif [ ${{ inputs.appType }} == nodejs ];then
+          echo npm test
+        elif [ ${{ inputs.appType }} == python ];then
+          echo python -m unittest
+        fi
