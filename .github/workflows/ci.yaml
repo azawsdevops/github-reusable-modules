@@ -9,9 +9,9 @@ on:
       appType:
         required: true
         type: string
-      secrets:
-        VAULT_TOKEN:
-          required: true
+    secrets:
+      VAULT_TOKEN:
+        required: true
 jobs:
   code-checkout:
     runs-on: self-hosted
@@ -39,17 +39,16 @@ jobs:
     runs-on: self-hosted
     needs: app-dependencies
     steps:
-    - name: Import Secrets
+    - name: Retrieve Vault Secrets
       id: import-secrets
       uses: hashicorp/vault-action@v2
       with:
-        url: http://vault-internal.cloudaws.shop:8200
+        url: http://vault-internal.azdevopsb82.online:8200
         token: ${{ secrets.VAULT_TOKEN }}
-        caCertificate: ${{ secrets.VAULT_TOKEN }}
-#        secrets: |
-#          github-action/data/azure_sp *;
         secrets: |
           github-action/data/azure_sp sonar_token | SONAR_TOKEN ;
+        #        secrets: |
+        #          github-action/data/azure_sp *;
     - name: Running Code quality checks
       run: |
         /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35c07ce398b131c43aed0 -Dsonar.projectKey=${{inputs.component}} -Dsonar.sources=. -Dsonar.language=${{ inputs.component }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
