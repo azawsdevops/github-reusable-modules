@@ -57,7 +57,7 @@ unit-tests:
   runs-on: self-hosted
   needs: code-quality
   steps:
-  - name: Unit Tests
+  - name: Unit-Tests
     run: |
         if [ ${{ inputs.appType }} == maven ]; then
           echo mvn test
