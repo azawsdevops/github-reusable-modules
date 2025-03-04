@@ -22,7 +22,7 @@ jobs:
     runs-on: self-hosted
     needs: code-checkout
     steps:
-      name: Downloading app dependencies
+    - name: Downloading app dependencies
       run: |
         if [ ${{ inputs.appType }} == maven ]; then
           mvn clean package
@@ -55,6 +55,6 @@ jobs:
     runs-on: self-hosted
     needs: app-dependencies
     steps:
-      name: testing unit test cases
+    - name: testing unit test cases
       
         
