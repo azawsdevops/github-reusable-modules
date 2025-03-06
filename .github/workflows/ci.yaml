@@ -44,7 +44,7 @@ jobs:
       id: import-secrets
       uses: hashicorp/vault-action@v2
       with:
-        url: http://vault-internal.azdevopsb82.online:8200
+        url: http://vault-internal.cloudaws.shop:8200
         token: ${{ secrets.VAULT_TOKEN }}
         secrets: |
           github-action/data/azure_sp sonar_token | SONAR_TOKEN ;
