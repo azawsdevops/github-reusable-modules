@@ -1,0 +1,31 @@
+name: Dev deployment
+run-name: ${{ github.actor }} deploy 🚀
+on:
+  workflow_call:
+    inputs:
+      component:
+        required: true
+jobs:
+  code-checkout:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        repository: azawsdevops/roboshop-${{ inputs.component }}
+  
+  app-dependencies:
+    runs-on: self-hosted
+    needs: code-checkout  # This must be correctly indented
+    steps:
+    - name: Downloading app dependencies
+      run: |
+        cd /home/centos/roboshop-${{ inputs.component }} && sudo npm install
+        
+        if [ ${{ inputs.appType }} == maven ]; then
+          mvn clean package
+        elif [ ${{ inputs.appType }} == nodejs ];then
+          npm install
+        elif [[ ${{ inputs.appType }} == python ]]; then
+          pip3 install -r requirements.txt
+        fi
