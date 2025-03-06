@@ -51,14 +51,7 @@ jobs:
     
     - name: Running Code quality checks
       run: |
-        /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner \
-          -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 \
-          -Dsonar.token=${{ steps.import-secrets.outputs.SONAR_TOKEN }} \
-          -Dsonar.projectKey=${{ inputs.component }} \
-          -Dsonar.sources=. \
-          -Dsonar.language=${{ inputs.appType }} \
-          -Dsonar.qualitygate.wait=true \
-          -Dsonar.java.binaries=./target
+        /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner -Dsonar.host.url=http://sonarqube-internal.cloudaws.shop:9000 -Dsonar.token=sqa_c54b102fbda5fc35ec076ce39e8b1310c43a9ed0 -Dsonar.projectKey=${{ inputs.appType }} -Dsonar.qualitygate.wait=true -Dsonar.java.binaries=./target
   
   unit-tests:
     runs-on: self-hosted
