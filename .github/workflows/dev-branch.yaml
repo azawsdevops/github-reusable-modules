@@ -6,6 +6,9 @@ on:
       component:
         required: true
         type: string
+      appType:
+        required: true
+        type: string
     secrets:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
 
