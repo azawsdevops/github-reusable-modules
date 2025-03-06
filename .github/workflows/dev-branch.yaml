@@ -5,6 +5,7 @@ on:
     inputs:
       component:
         required: true
+        type: string
 jobs:
   code-checkout:
     runs-on: self-hosted
