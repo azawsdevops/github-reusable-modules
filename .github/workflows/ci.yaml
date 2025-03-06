@@ -28,7 +28,7 @@ jobs:
     steps:
     - name: Downloading app dependencies
       run: |
-        cd /home/centos/roboshop-${{ inputs.appType }} && sudo npm install
+        cd /home/centos/roboshop-${{ inputs.component }} && sudo npm install
         
         if [ ${{ inputs.appType }} == maven ]; then
           mvn clean package
