@@ -1,5 +1,6 @@
-name: Dev deployment
-run-name: ${{ github.actor }} deploy 🚀
+
+name: CI Dev Pipeline
+run-name: CI Dev Pipeline
 on:
   workflow_call:
     inputs:
@@ -9,9 +10,9 @@ on:
       appType:
         required: true
         type: string
-  secrets:
-    VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-      
+    secrets:
+      VAULT_TOKEN:
+        required: true
 jobs:
   code-checkout:
     runs-on: self-hosted
@@ -24,18 +25,14 @@ jobs:
   
   app-dependencies:
     runs-on: self-hosted
-    needs: code-checkout  # This must be correctly indented
+    needs: code-checkout
     steps:
-    - name: Downloading app dependencies
+    - name: Download Dependency
       run: |
-        cd /home/centos/roboshop-${{ inputs.component }} && sudo npm install
-        
         if [ ${{ inputs.appType }} == maven ]; then
           mvn clean package
         elif [ ${{ inputs.appType }} == nodejs ];then
           npm install
-        elif [[ ${{ inputs.appType }} == python ]]; then
-          pip3 install -r requirements.txt
         fi
         # Python we are ignoring as downloading dependencies is of no use in CI.
   
@@ -52,3 +49,6 @@ jobs:
         elif [ ${{ inputs.appType }} == python ];then
           echo python -m unittest
         fi
+
+
+
