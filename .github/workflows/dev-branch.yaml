@@ -9,8 +9,8 @@ on:
       appType:
         required: true
         type: string
-    secrets:
-      VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+  secrets:
+    VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       
 jobs:
   code-checkout:
