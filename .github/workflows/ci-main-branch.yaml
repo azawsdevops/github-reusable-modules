@@ -22,6 +22,8 @@ jobs:
       with:
         repository: azawsdevops/roboshop-${{ inputs.component }}
         ref: main
+    - name: see
+      run: ls -l
 
   build-images:
     runs-on: self-hosted
