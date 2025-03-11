@@ -20,7 +20,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        repository: azawsdevops/roboshop-${{ inputs.component }}
+        repository: azawsdevops/roboshop-cart
         ref: main
     - name: Debug - List files
       run: ls -R
