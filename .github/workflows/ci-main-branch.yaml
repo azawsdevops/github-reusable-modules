@@ -14,6 +14,15 @@ on:
         required: true
 
 jobs:
+  checkout-code:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        repository: azawsdevops/roboshop-${{ inputs.component }}
+        ref: main
+
   build-images:
     runs-on: self-hosted
     steps:
