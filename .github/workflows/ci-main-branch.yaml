@@ -22,7 +22,6 @@ jobs:
       with:
         url: http://vault-internal.cloudaws.shop:8200
         token: ${{ secrets.VAULT_TOKEN }}
-        caCertificate: ${{ secrets.VAULT_TOKEN }}
         secrets: |
           github-action/data/azure_sp/ARM_CLIENT_ID | ARM_CLIENT_ID ;
           github-action/data/azure_sp/ARM_CLIENT_SECRET | ARM_CLIENT_SECRET ;
