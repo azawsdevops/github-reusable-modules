@@ -17,24 +17,26 @@ jobs:
   build-images:
     runs-on: self-hosted
     steps:
-      - name: Import Secrets
-        uses: hashicorp/vault-action@v2.4.0
-        with:
-          url: http://vault-internal.cloudaws.shop:8200
-          token: ${{ secrets.VAULT_TOKEN }}
-          caCertificate: ${{ secrets.VAULT_TOKEN }}
-          secrets: |
-            github-action/data/azure_sp/ARM_CLIENT_ID | ARM_CLIENT_ID ;
-            github-action/data/azure_sp/ARM_CLIENT_SECRET | ARM_CLIENT_SECRET ;
-            github-action/data/azure_sp/ARM_SUBSCRIPTION_ID | ARM_SUBSCRIPTION_ID ;
-            github-action/data/azure_sp/ARM_TENANT_ID | ARM_TENANT_ID ;
-      - name: tag images
-        run: |
-          az acr login --name cloudaws
-          docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }} 
-    
+    - name: Import Secrets
+      uses: hashicorp/vault-action@v2.4.0
+      with:
+        url: http://vault-internal.cloudaws.shop:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        caCertificate: ${{ secrets.VAULT_TOKEN }}
+        secrets: |
+          github-action/data/azure_sp/ARM_CLIENT_ID | ARM_CLIENT_ID ;
+          github-action/data/azure_sp/ARM_CLIENT_SECRET | ARM_CLIENT_SECRET ;
+          github-action/data/azure_sp/ARM_SUBSCRIPTION_ID | ARM_SUBSCRIPTION_ID ;
+          github-action/data/azure_sp/ARM_TENANT_ID | ARM_TENANT_ID ;
+    - name: Tag images
+      run: |
+        az acr login --name cloudaws
+        docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }} .
+  
   push-images:
     runs-on: self-hosted
     needs: build-images
     steps:
-      echo "hello docker"
+    - name: Push Docker images
+      run: |
+        echo "docker push cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }}"
