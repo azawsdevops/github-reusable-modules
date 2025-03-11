@@ -29,7 +29,7 @@ jobs:
           github-action/data/azure_sp ARM_TENANT_ID | ARM_TENANT_ID ;
     - name: Tag images
       run: |
-        sudo touch /etc/containers/nodocker
+        touch /etc/containers/nodocker
         az acr login --name cloudaws
         docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }} .
   
