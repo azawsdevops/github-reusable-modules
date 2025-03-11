@@ -11,10 +11,10 @@ jobs:
   DEV:
     runs-on: self-hosted
     steps:
-    - name: Checkout helm repos
+    - name: Checkout  repos
       uses: actions/checkout@v4
       with:
-        repository: azawsdevops/aks-roboshop-helm
+        repository: azawsdevops/roboshop-${{ inputs.component }}
         
   
   QA:
