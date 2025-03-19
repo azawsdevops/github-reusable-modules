@@ -16,8 +16,8 @@ jobs:
       with:
         repository: azawsdevops/aks-roboshop-helm
         run: |
-          bash argocd.sh {{ inputs.component }} dev cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }}
-        
+          bash argocd.sh {{ inputs.component }} dev cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA}
+        name: deployment
   
   QA:
     runs-on: self-hosted

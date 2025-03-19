@@ -27,8 +27,7 @@ jobs:
     steps:
     - name: Tag images
       run: |
-        az acr login --name cloudaws --expose-token
-        docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }} .
+        docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA} .
 
   push-images:
     runs-on: self-hosted
@@ -47,4 +46,4 @@ jobs:
     - name: Push Docker images
       run: |
           az acr login --name cloudaws
-          docker push cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }}
+          docker push cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA}
