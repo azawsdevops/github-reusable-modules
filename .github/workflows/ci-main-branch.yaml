@@ -27,6 +27,7 @@ jobs:
     steps:
     - name: Tag images
       run: |
+        echo $PATH
         docker build -t cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA} .
 
   push-images:
