@@ -14,7 +14,7 @@ jobs:
     - name: Checkout  repos
       uses: actions/checkout@v4
       with:
-        repository: azawsdevops/roboshop-${{ inputs.component }}
+        repository: azawsdevops/aks-roboshop-helm
         run: |
           bash argocd.sh {{ inputs.component }} dev cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${{ github.sha }}
         
