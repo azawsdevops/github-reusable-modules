@@ -10,6 +10,7 @@ on:
 jobs:
   DEV:
     runs-on: self-hosted
+    environment: DEV
     steps:
     - name: Checkout  repos
       uses: actions/checkout@v4
