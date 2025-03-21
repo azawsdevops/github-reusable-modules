@@ -16,9 +16,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: azawsdevops/aks-roboshop-helm
-        run: |
-          bash argocd.sh {{ inputs.component }} dev cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA}
-        name: deployment
+    - name: deployment
+      run: |
+        bash argocd.sh {{ inputs.component }} dev cloudaws.azurecr.io/roboshop-${{ inputs.component }}:${GITHUB_SHA}
+      
   
   QA:
     runs-on: self-hosted
